@@ -85,7 +85,7 @@ export const getInstancePropertyNames = (obj, excluded=[], exclude_private=true)
   const onlyProperties = (p, i, arr) => {
     return !includes(excluded, p) &&
     typeof topObject[p] !== 'function' &&
-    (exclude_private ? p[0] !== '_' : true) &&
+    (exclude_private ? (p[0] !== '_' && p[0] !== '$') : true) &&
     p !== 'constructor' &&
     (i === 0 || p !== arr[i - 1]) &&
     keys.indexOf(p) === -1
@@ -110,8 +110,8 @@ export const getInstancePropertyNames = (obj, excluded=[], exclude_private=true)
 export function getInstanceProperties(instance) {
   let property_names = getInstancePropertyNames(instance);
   return pick(instance, property_names);
-  // return reduce(property_names, (result, prop) => {
-  //   result = instance[prop]
-  // })
-  // return map(property_names, (prop) => { return instance[prop] })
+}
+
+function objectToUrlParams(params) {
+  return Object.keys(params).map(key => key + '=' + params[key]).join('&');
 }

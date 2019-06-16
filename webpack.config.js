@@ -1,11 +1,10 @@
 
 
 module.exports = {
-  mode: 'development',
   // mode: slsw.lib.webpack.isLocal ? "development": "production",
   optimization: {
     // We no not want to minimize our code.
-    minimize: false
+    // minimize: false
   },
   module: {
     rules: [
