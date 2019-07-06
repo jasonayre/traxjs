@@ -5,6 +5,7 @@ import isFunction from 'lodash/isFunction';
 import map from 'lodash/map';
 import includes from 'lodash/includes';
 import pick from 'lodash/pick';
+import clamp from 'lodash/clamp';
 
 export function evaluatePropertyOn(path, binding, ...rest) {
   let value = get(binding, path);
@@ -114,4 +115,38 @@ export function getInstanceProperties(instance) {
 
 function objectToUrlParams(params) {
   return Object.keys(params).map(key => key + '=' + params[key]).join('&');
+}
+
+export function normalize(val, min, max) { return Math.abs(clamp((val - min) / (max - min), 0, 1)) }
+
+//Serialization
+//Don't use this unless you know what you're doing
+function functionLoader(key, value) {
+  if(_.startsWith(value, 'function(')) {
+    let template = `this['${key}'] = ${value}`;
+    console.log(template, 'template');
+    return eval(template);
+  } else if(_.startsWith(value, '$$F:')) {
+    value = value.replace('$$F:', '');
+    let template = `this['${key}'] = ${value}`;
+    return eval(template);
+  } else {
+    return value
+  }
+}
+
+function functionSerializer(key, value) {
+  if(isFunction(value)) {
+    return `$$F:${value.toString()}`;
+  } else {
+    return value
+  }
+}
+
+export function serialize(data) {
+  return JSON.stringify(data, functionSerializer);
+}
+
+export function deserialize(data) {
+  return JSON.parse(data, functionLoader);
 }

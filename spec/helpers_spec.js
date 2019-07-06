@@ -2,6 +2,20 @@ require('../src/index');
 import * as Helpers from '~/helpers';
 
 describe('helpers', function(){
+  describe('serialization', function(){
+    it('serializes functions', function(){
+      let object_to_serialize = {
+        add: (v1, v2) => { return v1 + v2 },
+        subtract: function(v1, v2) { return v1 - v2 }
+      }
+
+      let serialized = Helpers.serialize(object_to_serialize);
+      let new_object = Helpers.deserialize(serialized);
+      expect(new_object.subtract(1,2)).toEqual(-1);
+      expect(new_object.add(1,2)).toEqual(3);
+    });
+  })
+
   describe('getInstancePropertyNames', function(){
     it('gets list of properties of object, including inherited', function(){
       class Something {
