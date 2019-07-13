@@ -4,6 +4,7 @@ import set from 'lodash/set';
 import some from 'lodash/some';
 import invokeMap from 'lodash/invokeMap';
 import values from 'lodash/values';
+import isArray from 'lodash/isArray';
 import {setProperty} from '~/helpers';
 
 export const HasSubscriptions = (superclass) => class extends superclass {
@@ -24,7 +25,13 @@ export const HasSubscriptions = (superclass) => class extends superclass {
     }
   }
 
-  $$broadcast(_event, message) { this.$$notify(_event, message) }
+  $$broadcast(_event, message) {
+    if(isArray(_event)) {
+      each(_event, (_e) => this.$$notify(_e, message));
+    } else {
+      this.$$notify(_event, message);
+    }
+  }
   async $$broadcastAsync(_event, message) { this.$$notify(_event, message) }
 
   $$notify(_event, message) {

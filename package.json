@@ -29,6 +29,7 @@
   "dependencies": {
     "babel-plugin-root-import": "^6.2.0",
     "core-js": "3",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "uuid-js": "^0.7.5"
   }
 }

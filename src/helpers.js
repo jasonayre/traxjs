@@ -6,6 +6,7 @@ import map from 'lodash/map';
 import includes from 'lodash/includes';
 import pick from 'lodash/pick';
 import clamp from 'lodash/clamp';
+import UUID from 'uuid-js';
 
 export function evaluatePropertyOn(path, binding, ...rest) {
   let value = get(binding, path);
@@ -149,4 +150,8 @@ export function serialize(data) {
 
 export function deserialize(data) {
   return JSON.parse(data, functionLoader);
+}
+
+export function uuid() {
+  return UUID.create().toString();
 }
