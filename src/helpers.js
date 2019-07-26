@@ -47,7 +47,7 @@ export function setProperty(obj, path, value) {
 }
 
 
-function isGetter (obj, prop) {
+export function isGetter (obj, prop) {
   return !!obj.__lookupGetter__(prop)
 }
 
