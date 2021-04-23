@@ -7,6 +7,7 @@ import includes from 'lodash/includes';
 import pick from 'lodash/pick';
 import clamp from 'lodash/clamp';
 import UUID from 'uuid-js';
+import short from 'short-uuid';
 
 export function evaluatePropertyOn(path, binding, ...rest) {
   let value = get(binding, path);
@@ -56,7 +57,7 @@ export const getInstanceMethods = (obj, excluded=[]) => {
   let topObject = obj
 
   const onlyOriginalMethods = (p, i, arr) => {
-    return !_.includes(excluded, p) &&
+    return !includes(excluded, p) &&
            !isGetter(topObject, p) &&
     typeof topObject[p] === 'function' &&
     p !== 'constructor' &&
@@ -154,4 +155,9 @@ export function deserialize(data) {
 
 export function uuid() {
   return UUID.create().toString();
+}
+
+var translator = short();
+export function shortUUID() {
+  return short.generate();
 }
