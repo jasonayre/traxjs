@@ -12,6 +12,7 @@ class BenchmarkMeasure {
   get started_at() { return this._started_at / 1000 }
   get finished_at() { return this._finished_at / 1000 }
   get elapsed() { return this.finished_at - this.started_at }
+  get elapsed_running() { return (Date.now() / 1000) - this.started_at }
 
   start() {
     this._started_at = Date.now();
@@ -43,6 +44,7 @@ export class Benchmark {
 
   static silence() { this._silence = true }
   static unsilence() { this._silence = false }
+  static $get(context) { return get(this, `history.${context}`) }
 
   static stop(context) {
     if(!this.benchmarks[context]) { return }
