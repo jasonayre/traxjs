@@ -161,3 +161,5 @@ var translator = short();
 export function shortUUID() {
   return short.generate();
 }
+
+function denormalize(value, max, min) { return value * (max-min) + min }
